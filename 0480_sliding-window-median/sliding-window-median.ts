@@ -45,8 +45,8 @@ function medianSlidingWindow(nums: number[], k: number): number[] {
 
 class MidHeap {
   _mark = new Map<number, number>()
-  _maxh = new PriorityQueue((a, b) => { return a > b ? true : false })
-  _minh = new PriorityQueue((a, b) => { return a < b ? true : false })
+  _maxh = new PriorityQueue((a, b) => a > b ? true : false)
+  _minh = new PriorityQueue((a, b) => a < b ? true : false)
   _maxd = 0
   _mind = 0
 
@@ -113,19 +113,19 @@ class PriorityQueue {
     this._up()
   }
 
-  pop() {
+  pop(): number {
     let last = this.size() - 1;
     [this._queue[0], this._queue[last]] = [this._queue[last], this._queue[0]]
     let out = this._queue.pop()
     this._down()
-    return out
+    return out as number
   }
 
-  top() {
+  top(): number {
     return this._queue[0]
   }
 
-  size() {
+  size(): number {
     return this._queue.length
   }
 
