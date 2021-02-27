@@ -26,32 +26,32 @@
 // Sliding Window + Hash
 
 function subarraysWithKDistinct(A: number[], K: number): number {
-  let out = 0
-  let cnt = new Map<number, number>()
-  for (let l = 0, r = 0, k = 0; r < A.length; r++) {
-    if (!cnt.has(A[r])) { cnt.set(A[r], 0) }
-    if (cnt.get(A[r]) === 0) { k++ }
-    cnt.set(A[r], cnt.get(A[r]) as number + 1)
-    while (k > K) {
-      cnt.set(A[l], cnt.get(A[l]) as number - 1)
-      if (cnt.get(A[l]) === 0) { k-- }
-      l++
+    let out = 0
+    let cnt = new Map<number, number>()
+    for (let l = 0, r = 0, k = 0; r < A.length; r++) {
+        if (!cnt.has(A[r])) { cnt.set(A[r], 0) }
+        if (cnt.get(A[r]) === 0) { k++ }
+        cnt.set(A[r], cnt.get(A[r]) as number + 1)
+        while (k > K) {
+            cnt.set(A[l], cnt.get(A[l]) as number - 1)
+            if (cnt.get(A[l]) === 0) { k-- }
+            l++
+        }
+        if (k === K) {
+            let i = l
+            while (i <= r) {
+                out++
+                cnt.set(A[i], cnt.get(A[i]) as number - 1)
+                if (cnt.get(A[i]) === 0) { break }
+                i++
+            }
+            while (i >= l) {
+                cnt.set(A[i], cnt.get(A[i]) as number + 1)
+                i--
+            }
+        }
     }
-    if (k === K) {
-      let i = l
-      while (i <= r) {
-        out++
-        cnt.set(A[i], cnt.get(A[i]) as number - 1)
-        if (cnt.get(A[i]) === 0) { break }
-        i++
-      }
-      while (i >= l) {
-        cnt.set(A[i], cnt.get(A[i]) as number + 1)
-        i--
-      }
-    }
-  }
-  return out
+    return out
 }
 
 export { subarraysWithKDistinct }

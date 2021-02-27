@@ -40,26 +40,26 @@
 */
 
 function matrixReshape(nums: number[][], r: number, c: number): number[][] {
-  let m = nums.length, n = nums[0].length
-  if (m * n != r * c) { return nums }
+    let m = nums.length, n = nums[0].length
+    if (m * n != r * c) { return nums }
 
-  let out: number[][] = [], i = 0, j = 0
+    let out: number[][] = [], i = 0, j = 0
 
-  for (let arr of nums) {
-    for (let num of arr) {
-      if (j === 0) { out.push([]) }
+    for (let arr of nums) {
+        for (let num of arr) {
+            if (j === 0) { out.push([]) }
 
-      out[i].push(num)
+            out[i].push(num)
 
-      j++
-      if (j === c) {
-        i++
-        j = 0
-      }
+            j++
+            if (j === c) {
+                i++
+                j = 0
+            }
+        }
     }
-  }
 
-  return out
+    return out
 }
 
 export { matrixReshape }

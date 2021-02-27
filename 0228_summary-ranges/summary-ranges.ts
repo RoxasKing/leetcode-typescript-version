@@ -46,29 +46,29 @@
 */
 
 function summaryRanges(nums: number[]): string[] {
-  let out: string[] = []
-  let n = nums.length
-  if (n === 0) {
-    return []
-  }
-  let l = nums[0], r = nums[0]
-  for (let i = 1; i < n; i++) {
-    if (nums[i] !== nums[i - 1] + 1) {
-      if (l !== r) {
-        out.push(l + '->' + r)
-      } else {
-        out.push('' + l)
-      }
-      l = nums[i]
+    let out: string[] = []
+    let n = nums.length
+    if (n === 0) {
+        return []
     }
-    r = nums[i]
-  }
-  if (l !== r) {
-    out.push(l + '->' + r)
-  } else {
-    out.push('' + l)
-  }
-  return out
+    let l = nums[0], r = nums[0]
+    for (let i = 1; i < n; i++) {
+        if (nums[i] !== nums[i - 1] + 1) {
+            if (l !== r) {
+                out.push(l + '->' + r)
+            } else {
+                out.push('' + l)
+            }
+            l = nums[i]
+        }
+        r = nums[i]
+    }
+    if (l !== r) {
+        out.push(l + '->' + r)
+    } else {
+        out.push('' + l)
+    }
+    return out
 }
 
 export { summaryRanges }

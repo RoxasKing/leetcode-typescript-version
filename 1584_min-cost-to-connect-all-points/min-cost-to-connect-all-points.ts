@@ -39,40 +39,40 @@
 // Prim's Algorithm + Greedy Algorithm
 
 function minCostConnectPoints(points: number[][]): number {
-  let n = points.length
-  let visited: boolean[] = []
-  let midDist: number[] = []
-  for (let i = 0; i < n; i++) {
-    visited.push(false)
-    midDist.push(Infinity)
-  }
-  midDist[0] = 0
+    let n = points.length
+    let visited: boolean[] = []
+    let midDist: number[] = []
+    for (let i = 0; i < n; i++) {
+        visited.push(false)
+        midDist.push(Infinity)
+    }
+    midDist[0] = 0
 
-  let out = 0
+    let out = 0
 
-  for (let i = 0; i < n; i++) {
-    let next = 0
-    let dist = Infinity
-    for (let j = 0; j < n; j++) {
-      if (!visited[j] && midDist[j] < dist) {
-        next = j
-        dist = midDist[j]
-      }
+    for (let i = 0; i < n; i++) {
+        let next = 0
+        let dist = Infinity
+        for (let j = 0; j < n; j++) {
+            if (!visited[j] && midDist[j] < dist) {
+                next = j
+                dist = midDist[j]
+            }
+        }
+
+        out += dist
+        visited[next] = true
+
+        for (let j = 0; j < n; j++) {
+            if (!visited[j]) {
+                let dist = Math.abs(points[j][0] - points[next][0]) +
+                    Math.abs(points[j][1] - points[next][1])
+                midDist[j] = Math.min(midDist[j], dist)
+            }
+        }
     }
 
-    out += dist
-    visited[next] = true
-
-    for (let j = 0; j < n; j++) {
-      if (!visited[j]) {
-        let dist = Math.abs(points[j][0] - points[next][0]) +
-          Math.abs(points[j][1] - points[next][1])
-        midDist[j] = Math.min(midDist[j], dist)
-      }
-    }
-  }
-
-  return out
+    return out
 }
 
 export { minCostConnectPoints }

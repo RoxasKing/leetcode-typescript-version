@@ -33,28 +33,28 @@
 // Sliding Window
 
 function minKBitFlips(A: number[], K: number): number {
-  let out = 0, a: number[] = [], b: number[] = []
+    let out = 0, a: number[] = [], b: number[] = []
 
-  for (let i = 0; i < A.length; i++) {
-    a.push(A[i])
-    b.push(A[i] ^ 1)
+    for (let i = 0; i < A.length; i++) {
+        a.push(A[i])
+        b.push(A[i] ^ 1)
 
-    if (i > K - 1) {
-      a.shift()
-      b.shift()
+        if (i > K - 1) {
+            a.shift()
+            b.shift()
+        }
+
+        if (i >= K - 1 && a[0] === 0) {
+            [a, b] = [b, a]
+            out++
+        }
     }
 
-    if (i >= K - 1 && a[0] === 0) {
-      [a, b] = [b, a]
-      out++
+    for (let num of a) {
+        if (num === 0) { return -1 }
     }
-  }
 
-  for (let num of a) {
-    if (num === 0) { return -1 }
-  }
-
-  return out
+    return out
 }
 
 export { minKBitFlips }

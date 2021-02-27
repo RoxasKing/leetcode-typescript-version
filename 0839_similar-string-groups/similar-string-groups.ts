@@ -30,60 +30,60 @@
 // Union-Find
 
 function numSimilarGroups(strs: string[]): number {
-  let n = strs.length
-  let uf = new unionFind(n)
-  for (let i = 0; i < n - 1; i++) {
-    for (let j = i + 1; j < n; j++) {
-      if (isSimilar(strs[i], strs[j])) { uf.union(i, j) }
+    let n = strs.length
+    let uf = new unionFind(n)
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = i + 1; j < n; j++) {
+            if (isSimilar(strs[i], strs[j])) { uf.union(i, j) }
+        }
     }
-  }
-  let mark = new Map<number, undefined>()
-  let out = 0
-  for (let i = 0; i < n; i++) {
-    let x = uf.find(i)
-    if (!mark.has(x)) {
-      out++
-      mark.set(x, undefined)
+    let mark = new Map<number, undefined>()
+    let out = 0
+    for (let i = 0; i < n; i++) {
+        let x = uf.find(i)
+        if (!mark.has(x)) {
+            out++
+            mark.set(x, undefined)
+        }
     }
-  }
-  return out
+    return out
 }
 
 function isSimilar(s1: string, s2: string): boolean {
-  let count = 0
-  for (let i = 0; i < s1.length; i++) {
-    if (s1.charAt(i) !== s2.charAt(i)) {
-      count++
-      if (count > 2) { return false }
+    let count = 0
+    for (let i = 0; i < s1.length; i++) {
+        if (s1.charAt(i) !== s2.charAt(i)) {
+            count++
+            if (count > 2) { return false }
+        }
     }
-  }
-  return true
+    return true
 }
 
 class unionFind {
-  parent: number[] = []
-  size: number[] = []
+    parent: number[] = []
+    size: number[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.parent.push(i)
-      this.size.push(1)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.parent.push(i)
+            this.size.push(1)
+        }
     }
-  }
 
-  find(x: number): number {
-    if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
-    return this.parent[x]
-  }
+    find(x: number): number {
+        if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
+        return this.parent[x]
+    }
 
-  union(x: number, y: number) {
-    x = this.find(x)
-    y = this.find(y)
-    if (x === y) { return }
-    if (this.size[x] < this.size[y]) { [x, y] = [y, x] }
-    this.parent[y] = x
-    this.size[x] += this.size[y]
-  }
+    union(x: number, y: number) {
+        x = this.find(x)
+        y = this.find(y)
+        if (x === y) { return }
+        if (this.size[x] < this.size[y]) { [x, y] = [y, x] }
+        this.parent[y] = x
+        this.size[x] += this.size[y]
+    }
 }
 
 export { numSimilarGroups }

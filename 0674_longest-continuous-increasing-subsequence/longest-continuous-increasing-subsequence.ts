@@ -25,19 +25,19 @@
 */
 
 function findLengthOfLCIS(nums: number[]): number {
-  let n = nums.length
-  if (n === 0) { return 0 }
-  let max = 1, cur = 1
-  for (let i = 1; i < n; i++) {
-    if (nums[i] > nums[i - 1]) {
-      cur++
-    } else {
-      max = Math.max(max, cur)
-      cur = 1
+    let n = nums.length
+    if (n === 0) { return 0 }
+    let max = 1, cur = 1
+    for (let i = 1; i < n; i++) {
+        if (nums[i] > nums[i - 1]) {
+            cur++
+        } else {
+            max = Math.max(max, cur)
+            cur = 1
+        }
     }
-  }
-  max = Math.max(max, cur)
-  return max
+    max = Math.max(max, cur)
+    return max
 }
 
 export { findLengthOfLCIS }

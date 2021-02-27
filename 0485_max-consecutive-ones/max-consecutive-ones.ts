@@ -16,16 +16,16 @@
 */
 
 function findMaxConsecutiveOnes(nums: number[]): number {
-  let out = 0, cnt = 0
-  for (let num of nums) {
-    if (num === 1) {
-      cnt++
-      out = Math.max(out, cnt)
-    } else {
-      cnt = 0
+    let out = 0, cnt = 0
+    for (let num of nums) {
+        if (num === 1) {
+            cnt++
+            out = Math.max(out, cnt)
+        } else {
+            cnt = 0
+        }
     }
-  }
-  return out
+    return out
 }
 
 export { findMaxConsecutiveOnes }

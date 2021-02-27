@@ -62,71 +62,71 @@
 // Union-Find
 
 function regionsBySlashes(grid: string[]): number {
-  let n = grid.length
-  let size = 4 * n * n
-  let uf = new unionFind(size)
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      let up = 4 * (n * j + i)
-      let right = up + 1, down = up + 2, left = up + 3
-      let char = grid[i].charAt(j)
-      if (char === '/') {
-        uf.union(right, down)
-        uf.union(left, up)
-      } else if (char == '\\') {
-        uf.union(up, right)
-        uf.union(down, left)
-      } else {
-        uf.union(right, up)
-        uf.union(down, up)
-        uf.union(left, up)
-      }
-      if (i + 1 < n) {
-        let rightLeft = left + 4
-        uf.union(rightLeft, right)
-      }
-      if (j + 1 < n) {
-        let downUp = up + 4 * n
-        uf.union(downUp, down)
-      }
+    let n = grid.length
+    let size = 4 * n * n
+    let uf = new unionFind(size)
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            let up = 4 * (n * j + i)
+            let right = up + 1, down = up + 2, left = up + 3
+            let char = grid[i].charAt(j)
+            if (char === '/') {
+                uf.union(right, down)
+                uf.union(left, up)
+            } else if (char == '\\') {
+                uf.union(up, right)
+                uf.union(down, left)
+            } else {
+                uf.union(right, up)
+                uf.union(down, up)
+                uf.union(left, up)
+            }
+            if (i + 1 < n) {
+                let rightLeft = left + 4
+                uf.union(rightLeft, right)
+            }
+            if (j + 1 < n) {
+                let downUp = up + 4 * n
+                uf.union(downUp, down)
+            }
+        }
     }
-  }
-  let out = 0
-  let mark = new Map<number, undefined>()
-  for (let i = 0; i < size; i++) {
-    let x = uf.find(i)
-    if (!mark.has(x)) {
-      out++
-      mark.set(x, undefined)
+    let out = 0
+    let mark = new Map<number, undefined>()
+    for (let i = 0; i < size; i++) {
+        let x = uf.find(i)
+        if (!mark.has(x)) {
+            out++
+            mark.set(x, undefined)
+        }
     }
-  }
-  return out
+    return out
 }
 
 class unionFind {
-  parent: number[] = []
-  size: number[] = []
+    parent: number[] = []
+    size: number[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.parent.push(i)
-      this.size.push(1)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.parent.push(i)
+            this.size.push(1)
+        }
     }
-  }
 
-  find(x: number): number {
-    if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
-    return this.parent[x]
-  }
+    find(x: number): number {
+        if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
+        return this.parent[x]
+    }
 
-  union(x: number, y: number) {
-    x = this.find(x)
-    y = this.find(y)
-    if (x === y) { return }
-    if (this.size[x] < this.size[y]) { [x, y] = [y, x] }
-    this.parent[y] = x
-    this.size[x] += this.size[y]
-  }
+    union(x: number, y: number) {
+        x = this.find(x)
+        y = this.find(y)
+        if (x === y) { return }
+        if (this.size[x] < this.size[y]) { [x, y] = [y, x] }
+        this.parent[y] = x
+        this.size[x] += this.size[y]
+    }
 }
 
 export { regionsBySlashes }

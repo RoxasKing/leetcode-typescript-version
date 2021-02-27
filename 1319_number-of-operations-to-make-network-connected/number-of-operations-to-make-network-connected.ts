@@ -38,58 +38,58 @@
 // Union-Find
 
 function makeConnected(n: number, connections: number[][]): number {
-  let uf = new unionFind(n)
-  let cables = 0
-  for (let conn of connections) {
-    let x = conn[0], y = conn[1]
-    if (uf.find(x) === uf.find(y)) {
-      cables++
-      continue
+    let uf = new unionFind(n)
+    let cables = 0
+    for (let conn of connections) {
+        let x = conn[0], y = conn[1]
+        if (uf.find(x) === uf.find(y)) {
+            cables++
+            continue
+        }
+        uf.union(x, y)
     }
-    uf.union(x, y)
-  }
 
-  let mark = new Array<boolean>(n).fill(false)
-  let groups = -1
-  for (let i = 0; i < n; i++) {
-    let x = uf.find(i)
-    if (!mark[x]) {
-      groups++
-      mark[x] = true
+    let mark = new Array<boolean>(n).fill(false)
+    let groups = -1
+    for (let i = 0; i < n; i++) {
+        let x = uf.find(i)
+        if (!mark[x]) {
+            groups++
+            mark[x] = true
+        }
     }
-  }
 
-  if (groups > cables) { return -1 }
-  return groups
+    if (groups > cables) { return -1 }
+    return groups
 }
 
 class unionFind {
-  parent: number[] = []
-  size: number[] = []
+    parent: number[] = []
+    size: number[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.parent.push(i)
-      this.size.push(1)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.parent.push(i)
+            this.size.push(1)
+        }
     }
-  }
 
-  find(x: number): number {
-    if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
-    return this.parent[x]
-  }
+    find(x: number): number {
+        if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
+        return this.parent[x]
+    }
 
-  union(x: number, y: number) {
-    x = this.find(x)
-    y = this.find(y)
+    union(x: number, y: number) {
+        x = this.find(x)
+        y = this.find(y)
 
-    if (x === y) { return }
+        if (x === y) { return }
 
-    if (this.size[x] > this.size[y]) { [x, y] = [y, x] }
+        if (this.size[x] > this.size[y]) { [x, y] = [y, x] }
 
-    this.parent[y] = x
-    this.size[x] += this.size[y]
-  }
+        this.parent[y] = x
+        this.size[x] += this.size[y]
+    }
 }
 
 export { makeConnected }

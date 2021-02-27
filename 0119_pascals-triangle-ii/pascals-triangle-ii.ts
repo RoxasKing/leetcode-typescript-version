@@ -29,14 +29,14 @@
 // Dynamic Programming
 
 function getRow(rowIndex: number): number[] {
-  let out: number[] = []
-  for (let i = 0; i <= rowIndex; i++) {
-    out.push(1)
-    for (let j = i - 1; j >= 1; j--) {
-      out[j] += out[j - 1]
+    let out: number[] = []
+    for (let i = 0; i <= rowIndex; i++) {
+        out.push(1)
+        for (let j = i - 1; j >= 1; j--) {
+            out[j] += out[j - 1]
+        }
     }
-  }
-  return out
+    return out
 }
 
 export { getRow }

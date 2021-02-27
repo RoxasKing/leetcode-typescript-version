@@ -28,75 +28,75 @@
 // Union-Find
 
 function accountsMerge(accounts: string[][]): string[][] {
-  let n = accounts.length
-  let uf = new unionFind(n)
-  let emails = new Map<string, number>()
+    let n = accounts.length
+    let uf = new unionFind(n)
+    let emails = new Map<string, number>()
 
-  accounts.forEach((account, i) => {
-    account.slice(1).forEach((email) => {
-      if (emails.has(email)) {
-        let idx = emails.get(email) as number
-        uf.union(idx, i)
-      } else {
-        emails.set(email, i)
-      }
+    accounts.forEach((account, i) => {
+        account.slice(1).forEach((email) => {
+            if (emails.has(email)) {
+                let idx = emails.get(email) as number
+                uf.union(idx, i)
+            } else {
+                emails.set(email, i)
+            }
+        })
     })
-  })
 
-  let accountsMap = new Map<number, string[]>()
+    let accountsMap = new Map<number, string[]>()
 
-  for (let i = 0; i < n; i++) {
-    let idx = uf.find(i)
-    if (accountsMap.has(idx)) { continue }
-    let name = accounts[i][0]
-    accountsMap.set(idx, [name])
-  }
+    for (let i = 0; i < n; i++) {
+        let idx = uf.find(i)
+        if (accountsMap.has(idx)) { continue }
+        let name = accounts[i][0]
+        accountsMap.set(idx, [name])
+    }
 
-  emails.forEach((i, email) => {
-    let idx = uf.find(i)
-    accountsMap.get(idx)?.push(email)
-  })
+    emails.forEach((i, email) => {
+        let idx = uf.find(i)
+        accountsMap.get(idx)?.push(email)
+    })
 
-  let out: string[][] = []
+    let out: string[][] = []
 
-  accountsMap.forEach(account => {
-    account.sort((a, b) => (a < b) ? -1 : ((a > b) ? 1 : 0))
-    out.push(account)
-  })
+    accountsMap.forEach(account => {
+        account.sort((a, b) => (a < b) ? -1 : ((a > b) ? 1 : 0))
+        out.push(account)
+    })
 
-  return out
+    return out
 }
 
 class unionFind {
-  ancestor: number[] = []
-  isEnd: boolean[] = []
+    ancestor: number[] = []
+    isEnd: boolean[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.ancestor.push(i)
-      this.isEnd.push(false)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.ancestor.push(i)
+            this.isEnd.push(false)
+        }
     }
-  }
 
-  find(x: number): number {
-    if (this.isEnd[this.ancestor[x]]) {
-      return this.ancestor[x]
+    find(x: number): number {
+        if (this.isEnd[this.ancestor[x]]) {
+            return this.ancestor[x]
+        }
+        if (this.ancestor[x] !== x) {
+            this.ancestor[x] = this.find(this.ancestor[x])
+            this.isEnd[x] = false
+            this.isEnd[this.ancestor[x]] = true
+        }
+        return this.ancestor[x]
     }
-    if (this.ancestor[x] !== x) {
-      this.ancestor[x] = this.find(this.ancestor[x])
-      this.isEnd[x] = false
-      this.isEnd[this.ancestor[x]] = true
-    }
-    return this.ancestor[x]
-  }
 
-  union(x: number, y: number) {
-    let ancestorX = this.find(x)
-    let ancestorY = this.find(y)
-    this.ancestor[ancestorX] = ancestorY
-    this.isEnd[ancestorX] = false
-    this.isEnd[ancestorY] = true
-  }
+    union(x: number, y: number) {
+        let ancestorX = this.find(x)
+        let ancestorY = this.find(y)
+        this.ancestor[ancestorX] = ancestorY
+        this.isEnd[ancestorX] = false
+        this.isEnd[ancestorY] = true
+    }
 }
 
 export { accountsMerge }

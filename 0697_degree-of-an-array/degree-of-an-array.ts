@@ -31,32 +31,32 @@
 // Sliding Window
 
 function findShortestSubArray(nums: number[]): number {
-  let n = nums.length
+    let n = nums.length
 
-  let max = 0
-  let cnt = new Map<number, number>()
-  for (let num of nums) {
-    if (!cnt.has(num)) { cnt.set(num, 0) }
-    cnt.set(num, cnt.get(num) as number + 1)
-    max = Math.max(max, cnt.get(num) as number)
-  }
-
-  let out = n
-  cnt = new Map<number, number>()
-  for (let l = 0, r = 0; r < n; r++) {
-    if (!cnt.has(nums[r])) { cnt.set(nums[r], 0) }
-    cnt.set(nums[r], cnt.get(nums[r]) as number + 1)
-    if (cnt.get(nums[r]) as number < max) {
-      continue
+    let max = 0
+    let cnt = new Map<number, number>()
+    for (let num of nums) {
+        if (!cnt.has(num)) { cnt.set(num, 0) }
+        cnt.set(num, cnt.get(num) as number + 1)
+        max = Math.max(max, cnt.get(num) as number)
     }
-    while (l <= r && nums[l] != nums[r]) {
-      cnt.set(nums[l], cnt.get(nums[l]) as number - 1)
-      l++
-    }
-    out = Math.min(out, r + 1 - l)
-  }
 
-  return out
+    let out = n
+    cnt = new Map<number, number>()
+    for (let l = 0, r = 0; r < n; r++) {
+        if (!cnt.has(nums[r])) { cnt.set(nums[r], 0) }
+        cnt.set(nums[r], cnt.get(nums[r]) as number + 1)
+        if (cnt.get(nums[r]) as number < max) {
+            continue
+        }
+        while (l <= r && nums[l] != nums[r]) {
+            cnt.set(nums[l], cnt.get(nums[l]) as number - 1)
+            l++
+        }
+        out = Math.min(out, r + 1 - l)
+    }
+
+    return out
 }
 
 export { findShortestSubArray }

@@ -34,25 +34,25 @@
 */
 
 function fairCandySwap(A: number[], B: number[]): number[] {
-  let sumA = 0, sumB = 0
-  let dict = new Map<number, undefined>()
-  for (let num of A) {
-    sumA += num
-  }
-  for (let num of B) {
-    sumB += num
-    dict.set(num, undefined)
-  }
-  let diff = (sumB - sumA) / 2
-
-  let out: number[] = []
-  for (let num of A) {
-    if (dict.has(num + diff)) {
-      out.push(num, num + diff)
-      break
+    let sumA = 0, sumB = 0
+    let dict = new Map<number, undefined>()
+    for (let num of A) {
+        sumA += num
     }
-  }
-  return out
+    for (let num of B) {
+        sumB += num
+        dict.set(num, undefined)
+    }
+    let diff = (sumB - sumA) / 2
+
+    let out: number[] = []
+    for (let num of A) {
+        if (dict.has(num + diff)) {
+            out.push(num, num + diff)
+            break
+        }
+    }
+    return out
 }
 
 export { fairCandySwap }

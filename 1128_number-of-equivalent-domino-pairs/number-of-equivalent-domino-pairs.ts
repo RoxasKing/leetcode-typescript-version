@@ -17,17 +17,17 @@
 */
 
 function numEquivDominoPairs(dominoes: number[][]): number {
-  let count = new Array<number>(100).fill(0)
-  for (let d of dominoes) {
-    let a = d[0], b = d[1]
-    if (a > b) { [a, b] = [b, a] }
-    count[a * 10 + b]++
-  }
-  let out = 0
-  for (let c of count) {
-    out += c * (c - 1) / 2
-  }
-  return out
+    let count = new Array<number>(100).fill(0)
+    for (let d of dominoes) {
+        let a = d[0], b = d[1]
+        if (a > b) { [a, b] = [b, a] }
+        count[a * 10 + b]++
+    }
+    let out = 0
+    for (let c of count) {
+        out += c * (c - 1) / 2
+    }
+    return out
 }
 
 export { numEquivDominoPairs }

@@ -27,56 +27,56 @@
 // Union-Find
 
 function minSwapsCouples(row: number[]): number {
-  let n = row.length >> 1
-  let uf = new unionFind(n)
-  for (let i = 0; i < row.length; i += 2) {
-    let c1 = row[i] >> 1, c2 = row[i + 1] >> 1
-    if (c1 === c2) { continue }
-    if (uf.find(c1) === uf.find(c2)) { continue }
-    uf.union(c1, c2)
-  }
-
-  let out = 0
-  let mark = new Map<number, undefined>()
-  for (let i = 0; i < n; i++) {
-    let x = uf.find(i)
-    if (mark.has(x)) {
-      out++
-      continue
+    let n = row.length >> 1
+    let uf = new unionFind(n)
+    for (let i = 0; i < row.length; i += 2) {
+        let c1 = row[i] >> 1, c2 = row[i + 1] >> 1
+        if (c1 === c2) { continue }
+        if (uf.find(c1) === uf.find(c2)) { continue }
+        uf.union(c1, c2)
     }
-    mark.set(x, undefined)
-  }
-  return out
+
+    let out = 0
+    let mark = new Map<number, undefined>()
+    for (let i = 0; i < n; i++) {
+        let x = uf.find(i)
+        if (mark.has(x)) {
+            out++
+            continue
+        }
+        mark.set(x, undefined)
+    }
+    return out
 }
 
 class unionFind {
-  _parent: number[] = []
-  _size: number[] = []
+    _parent: number[] = []
+    _size: number[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this._parent.push(i)
-      this._size.push(1)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this._parent.push(i)
+            this._size.push(1)
+        }
     }
-  }
 
-  find(x: number) {
-    if (this._parent[x] !== x) { this._parent[x] = this.find(this._parent[x]) }
+    find(x: number) {
+        if (this._parent[x] !== x) { this._parent[x] = this.find(this._parent[x]) }
 
-    return this._parent[x]
-  }
+        return this._parent[x]
+    }
 
-  union(x: number, y: number) {
-    x = this.find(x)
-    y = this.find(y)
+    union(x: number, y: number) {
+        x = this.find(x)
+        y = this.find(y)
 
-    if (x === y) { return }
+        if (x === y) { return }
 
-    if (this._size[x] < this._size[y]) { [x, y] = [y, x] }
+        if (this._size[x] < this._size[y]) { [x, y] = [y, x] }
 
-    this._parent[y] = x
-    this._size[x] += this._size[y]
-  }
+        this._parent[y] = x
+        this._size[x] += this._size[y]
+    }
 }
 
 export { minSwapsCouples }

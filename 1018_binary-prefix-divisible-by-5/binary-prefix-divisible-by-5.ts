@@ -31,17 +31,17 @@
 */
 
 function prefixesDivBy5(A: number[]): boolean[] {
-  let out: boolean[] = []
-  let sum = 0
-  for (let i = 0; i < A.length; i++) {
-    sum = ((sum << 1) + A[i]) % 5
-    if (sum === 0) {
-      out.push(true)
-    } else {
-      out.push(false)
+    let out: boolean[] = []
+    let sum = 0
+    for (let i = 0; i < A.length; i++) {
+        sum = ((sum << 1) + A[i]) % 5
+        if (sum === 0) {
+            out.push(true)
+        } else {
+            out.push(false)
+        }
     }
-  }
-  return out
+    return out
 }
 
 export { prefixesDivBy5 }

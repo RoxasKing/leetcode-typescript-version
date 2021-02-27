@@ -34,40 +34,40 @@
 // Bit Operation + Hash + Backtracking
 
 function findNumOfValidWords(words: string[], puzzles: string[]): number[] {
-  let mskCnt = new Map<number, number>()
-  for (let word of words) {
-    let msk = 0
-    for (let i = 0; i < word.length; i++) {
-      msk |= 1 << (word.charCodeAt(i) - 97)
+    let mskCnt = new Map<number, number>()
+    for (let word of words) {
+        let msk = 0
+        for (let i = 0; i < word.length; i++) {
+            msk |= 1 << (word.charCodeAt(i) - 97)
+        }
+        if (!mskCnt.has(msk)) { mskCnt.set(msk, 0) }
+        mskCnt.set(msk, mskCnt.get(msk) as number + 1)
     }
-    if (!mskCnt.has(msk)) { mskCnt.set(msk, 0) }
-    mskCnt.set(msk, mskCnt.get(msk) as number + 1)
-  }
 
-  let out: number[] = []
-  for (let puzzle of puzzles) {
-    let subMsks: number[] = []
-    let msk = 1 << (puzzle.charCodeAt(0) - 97)
-    getSubMsks(puzzle, 1, msk, subMsks)
-    let cnt = 0
-    for (let msk of subMsks) {
-      if (mskCnt.has(msk)) {
-        cnt += mskCnt.get(msk) as number
-      }
+    let out: number[] = []
+    for (let puzzle of puzzles) {
+        let subMsks: number[] = []
+        let msk = 1 << (puzzle.charCodeAt(0) - 97)
+        getSubMsks(puzzle, 1, msk, subMsks)
+        let cnt = 0
+        for (let msk of subMsks) {
+            if (mskCnt.has(msk)) {
+                cnt += mskCnt.get(msk) as number
+            }
+        }
+        out.push(cnt)
     }
-    out.push(cnt)
-  }
-  return out
+    return out
 }
 
 function getSubMsks(puzzle: string, i: number, msk: number, subMsks: number[]) {
-  if (i === puzzle.length) {
-    subMsks.push(msk)
-    return
-  }
+    if (i === puzzle.length) {
+        subMsks.push(msk)
+        return
+    }
 
-  getSubMsks(puzzle, i + 1, msk, subMsks)
-  getSubMsks(puzzle, i + 1, msk | (1 << (puzzle.charCodeAt(i) - 97)), subMsks)
+    getSubMsks(puzzle, i + 1, msk, subMsks)
+    getSubMsks(puzzle, i + 1, msk | (1 << (puzzle.charCodeAt(i) - 97)), subMsks)
 }
 
 export { findNumOfValidWords }

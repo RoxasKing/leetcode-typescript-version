@@ -24,33 +24,33 @@
 // Sliding Window
 
 function longestSubstring(s: string, k: number): number {
-  let out = 0
-  for (let t = 1; t <= 26; t++) {
-    let cnt = new Map<number, number>()
-    let typ = 0, lss = 0
-    for (let l = 0, r = 0; r < s.length; r++) {
-      let c = s.charCodeAt(r) - 97
-      if (!cnt.has(c)) { cnt.set(c, 0) }
-      if (cnt.get(c) === 0) {
-        typ++
-        lss++
-      }
-      cnt.set(c, cnt.get(c) as number + 1)
-      if (cnt.get(c) === k) { lss-- }
-      while (typ > t) {
-        c = s.charCodeAt(l) - 97
-        if (cnt.get(c) === k) { lss++ }
-        cnt.set(c, cnt.get(c) as number - 1)
-        if (cnt.get(c) === 0) {
-          typ--
-          lss--
+    let out = 0
+    for (let t = 1; t <= 26; t++) {
+        let cnt = new Map<number, number>()
+        let typ = 0, lss = 0
+        for (let l = 0, r = 0; r < s.length; r++) {
+            let c = s.charCodeAt(r) - 97
+            if (!cnt.has(c)) { cnt.set(c, 0) }
+            if (cnt.get(c) === 0) {
+                typ++
+                lss++
+            }
+            cnt.set(c, cnt.get(c) as number + 1)
+            if (cnt.get(c) === k) { lss-- }
+            while (typ > t) {
+                c = s.charCodeAt(l) - 97
+                if (cnt.get(c) === k) { lss++ }
+                cnt.set(c, cnt.get(c) as number - 1)
+                if (cnt.get(c) === 0) {
+                    typ--
+                    lss--
+                }
+                l++
+            }
+            if (lss === 0) { out = Math.max(out, r + 1 - l) }
         }
-        l++
-      }
-      if (lss === 0) { out = Math.max(out, r + 1 - l) }
     }
-  }
-  return out
+    return out
 }
 
 export { longestSubstring }

@@ -40,64 +40,64 @@
 // Union-Find
 
 function smallestStringWithSwaps(s: string, pairs: number[][]): string {
-  let n = s.length
-  let uf = new unionFind(n)
-  for (let pair of pairs) { uf.union(pair[0], pair[1]) }
+    let n = s.length
+    let uf = new unionFind(n)
+    for (let pair of pairs) { uf.union(pair[0], pair[1]) }
 
-  let groups = new Map<number, number[]>()
-  for (let i = 0; i < n; i++) {
-    let a = uf.find(i)
-    if (!groups.has(a)) { groups.set(a, []) }
-    groups.get(a)?.push(i)
-  }
+    let groups = new Map<number, number[]>()
+    for (let i = 0; i < n; i++) {
+        let a = uf.find(i)
+        if (!groups.has(a)) { groups.set(a, []) }
+        groups.get(a)?.push(i)
+    }
 
-  let ls: string[] = []
-  for (let c of s) { ls.push(c) }
+    let ls: string[] = []
+    for (let c of s) { ls.push(c) }
 
-  for (let group of groups.values()) {
-    if (group.length < 2) { continue }
-    let arr: string[] = []
-    for (let i = 0; i < group.length; i++) { arr.push(ls[group[i]]) }
-    arr.sort((a, b) => (a < b) ? -1 : ((a > b) ? 1 : 0))
-    for (let i = 0; i < arr.length; i++) { ls[group[i]] = arr[i] }
-  }
+    for (let group of groups.values()) {
+        if (group.length < 2) { continue }
+        let arr: string[] = []
+        for (let i = 0; i < group.length; i++) { arr.push(ls[group[i]]) }
+        arr.sort((a, b) => (a < b) ? -1 : ((a > b) ? 1 : 0))
+        for (let i = 0; i < arr.length; i++) { ls[group[i]] = arr[i] }
+    }
 
-  return ls.join('')
+    return ls.join('')
 }
 
 class unionFind {
-  ancestor: number[] = []
-  isEnd: boolean[] = []
+    ancestor: number[] = []
+    isEnd: boolean[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.ancestor.push(i)
-      this.isEnd.push(false)
-    }
-  }
-
-  find(x: number): number {
-    if (this.isEnd[this.ancestor[x]]) {
-      return this.ancestor[x]
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.ancestor.push(i)
+            this.isEnd.push(false)
+        }
     }
 
-    if (this.ancestor[x] !== x) {
-      this.ancestor[x] = this.find(this.ancestor[x])
+    find(x: number): number {
+        if (this.isEnd[this.ancestor[x]]) {
+            return this.ancestor[x]
+        }
+
+        if (this.ancestor[x] !== x) {
+            this.ancestor[x] = this.find(this.ancestor[x])
+        }
+
+        this.isEnd[x] = false
+        this.isEnd[this.ancestor[x]] = true
+
+        return this.ancestor[x]
     }
 
-    this.isEnd[x] = false
-    this.isEnd[this.ancestor[x]] = true
-
-    return this.ancestor[x]
-  }
-
-  union(x: number, y: number) {
-    let xAncestor = this.find(x)
-    let yAncestor = this.find(y)
-    this.ancestor[xAncestor] = yAncestor
-    this.isEnd[xAncestor] = false
-    this.isEnd[yAncestor] = true
-  }
+    union(x: number, y: number) {
+        let xAncestor = this.find(x)
+        let yAncestor = this.find(y)
+        this.ancestor[xAncestor] = yAncestor
+        this.isEnd[xAncestor] = false
+        this.isEnd[yAncestor] = true
+    }
 }
 
 export { smallestStringWithSwaps }

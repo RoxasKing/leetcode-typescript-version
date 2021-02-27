@@ -15,21 +15,21 @@
 */
 
 function findDisappearedNumbers(nums: number[]): number[] {
-  let n = nums.length
-  for (let i = 0; i < n; i++) {
-    let j = nums[i] - 1
-    while (i != j && nums[i] != nums[j]) {
-      [nums[i], nums[j]] = [nums[j], nums[i]]
-      j = nums[i] - 1
+    let n = nums.length
+    for (let i = 0; i < n; i++) {
+        let j = nums[i] - 1
+        while (i != j && nums[i] != nums[j]) {
+            [nums[i], nums[j]] = [nums[j], nums[i]]
+            j = nums[i] - 1
+        }
     }
-  }
-  let out: number[] = []
-  for (let i = 1; i <= n; i++) {
-    if (i != nums[i - 1]) {
-      out.push(i)
+    let out: number[] = []
+    for (let i = 1; i <= n; i++) {
+        if (i != nums[i - 1]) {
+            out.push(i)
+        }
     }
-  }
-  return out
+    return out
 }
 
 export { findDisappearedNumbers }

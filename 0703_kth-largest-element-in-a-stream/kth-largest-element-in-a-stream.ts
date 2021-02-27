@@ -35,23 +35,23 @@
 // Priority Queue(Heap Sort)
 
 class KthLargest {
-  maxh = new PriorityQueue((a, b) => a > b ? true : false)
-  minh = new PriorityQueue((a, b) => a < b ? true : false)
+    maxh = new PriorityQueue((a, b) => a > b ? true : false)
+    minh = new PriorityQueue((a, b) => a < b ? true : false)
 
-  constructor(k: number, nums: number[]) {
-    for (let num of nums) { this.minh.push(num) }
-    while (this.minh.size() > k - 1) { this.maxh.push(this.minh.pop()) }
-  }
-
-  add(val: number): number {
-    if (this.minh.size() > 0 && val > this.minh.top()) {
-      this.maxh.push(this.minh.pop())
-      this.minh.push(val)
-    } else {
-      this.maxh.push(val)
+    constructor(k: number, nums: number[]) {
+        for (let num of nums) { this.minh.push(num) }
+        while (this.minh.size() > k - 1) { this.maxh.push(this.minh.pop()) }
     }
-    return this.maxh.top()
-  }
+
+    add(val: number): number {
+        if (this.minh.size() > 0 && val > this.minh.top()) {
+            this.maxh.push(this.minh.pop())
+            this.minh.push(val)
+        } else {
+            this.maxh.push(val)
+        }
+        return this.maxh.top()
+    }
 }
 
 /**
@@ -61,59 +61,59 @@ class KthLargest {
  */
 
 class PriorityQueue {
-  _queue: number[] = []
-  _compareFunc: (arg0: number, arg1: number) => boolean
+    _queue: number[] = []
+    _compareFunc: (arg0: number, arg1: number) => boolean
 
-  constructor(compareFunc: (arg0: number, arg1: number) => boolean) {
-    this._compareFunc = compareFunc
-  }
-
-  push(x: number) {
-    this._queue.push(x)
-    this._up()
-  }
-
-  pop(): number {
-    let last = this.size() - 1;
-    [this._queue[0], this._queue[last]] = [this._queue[last], this._queue[0]]
-    let out = this._queue.pop()
-    this._down()
-    return out as number
-  }
-
-  top(): number {
-    return this._queue[0]
-  }
-
-  size(): number {
-    return this._queue.length
-  }
-
-  _up() {
-    let son = this.size() - 1
-    while (son > 0) {
-      let parent = (son - 1) >> 1
-      if (!this._compareFunc(this._queue[son], this._queue[parent])) { return }
-      [this._queue[parent], this._queue[son]] = [this._queue[son], this._queue[parent]]
-      son = parent
+    constructor(compareFunc: (arg0: number, arg1: number) => boolean) {
+        this._compareFunc = compareFunc
     }
-  }
 
-  _down() {
-    let parent = 0
-    while (parent < (this.size() >> 1)) {
-      let son = (parent << 1) + 1
-      if (son > this.size() - 1) {
-        return
-      }
-      if (son + 1 < this.size() && this._compareFunc(this._queue[son + 1], this._queue[son])) {
-        son++
-      }
-      if (!this._compareFunc(this._queue[son], this._queue[parent])) { return }
-      [this._queue[parent], this._queue[son]] = [this._queue[son], this._queue[parent]]
-      parent = son
+    push(x: number) {
+        this._queue.push(x)
+        this._up()
     }
-  }
+
+    pop(): number {
+        let last = this.size() - 1;
+        [this._queue[0], this._queue[last]] = [this._queue[last], this._queue[0]]
+        let out = this._queue.pop()
+        this._down()
+        return out as number
+    }
+
+    top(): number {
+        return this._queue[0]
+    }
+
+    size(): number {
+        return this._queue.length
+    }
+
+    _up() {
+        let son = this.size() - 1
+        while (son > 0) {
+            let parent = (son - 1) >> 1
+            if (!this._compareFunc(this._queue[son], this._queue[parent])) { return }
+            [this._queue[parent], this._queue[son]] = [this._queue[son], this._queue[parent]]
+            son = parent
+        }
+    }
+
+    _down() {
+        let parent = 0
+        while (parent < (this.size() >> 1)) {
+            let son = (parent << 1) + 1
+            if (son > this.size() - 1) {
+                return
+            }
+            if (son + 1 < this.size() && this._compareFunc(this._queue[son + 1], this._queue[son])) {
+                son++
+            }
+            if (!this._compareFunc(this._queue[son], this._queue[parent])) { return }
+            [this._queue[parent], this._queue[son]] = [this._queue[son], this._queue[parent]]
+            parent = son
+        }
+    }
 }
 
 export { KthLargest }

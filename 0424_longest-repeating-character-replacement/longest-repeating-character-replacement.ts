@@ -31,24 +31,24 @@
 // Sliding Window
 
 function characterReplacement(s: string, k: number): number {
-  let out = 0
-  let count = new Map<string, number>()
-  let l = 0
-  for (let r = 0; r < s.length; r++) {
-    let c = s.charAt(r)
-    if (!count.has(c)) { count.set(c, 0) }
-    count.set(c, count.get(c) as number + 1)
-    let max = 0
-    for (let cnt of count.values()) { max = Math.max(max, cnt) }
-    if (max + k < r + 1 - l) {
-      let c = s.charAt(l)
-      count.set(c, count.get(c) as number - 1)
-      l++
-    } else {
-      out = Math.max(out, r + 1 - l)
+    let out = 0
+    let count = new Map<string, number>()
+    let l = 0
+    for (let r = 0; r < s.length; r++) {
+        let c = s.charAt(r)
+        if (!count.has(c)) { count.set(c, 0) }
+        count.set(c, count.get(c) as number + 1)
+        let max = 0
+        for (let cnt of count.values()) { max = Math.max(max, cnt) }
+        if (max + k < r + 1 - l) {
+            let c = s.charAt(l)
+            count.set(c, count.get(c) as number - 1)
+            l++
+        } else {
+            out = Math.max(out, r + 1 - l)
+        }
     }
-  }
-  return out
+    return out
 }
 
 export { characterReplacement }

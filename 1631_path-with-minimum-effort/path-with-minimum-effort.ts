@@ -33,61 +33,61 @@
 // Union-Find
 
 function minimumEffortPath(heights: number[][]): number {
-  let m = heights.length, n = heights[0].length
-  let links: number[][] = []
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (i > 0) {
-        let x = (i - 1) * n + j
-        let y = i * n + j
-        let diff = Math.abs(heights[i - 1][j] - heights[i][j])
-        links.push([x, y, diff])
-      }
-      if (j > 0) {
-        let x = i * n + j - 1
-        let y = i * n + j
-        let diff = Math.abs(heights[i][j - 1] - heights[i][j])
-        links.push([x, y, diff])
-      }
+    let m = heights.length, n = heights[0].length
+    let links: number[][] = []
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (i > 0) {
+                let x = (i - 1) * n + j
+                let y = i * n + j
+                let diff = Math.abs(heights[i - 1][j] - heights[i][j])
+                links.push([x, y, diff])
+            }
+            if (j > 0) {
+                let x = i * n + j - 1
+                let y = i * n + j
+                let diff = Math.abs(heights[i][j - 1] - heights[i][j])
+                links.push([x, y, diff])
+            }
+        }
     }
-  }
-  links.sort((a, b) => (a[2] < b[2]) ? -1 : (a[2] > b[2]) ? 1 : 0)
-  let uf = new unionFind(m * n)
-  let out = 0
-  for (let link of links) {
-    let x = link[0], y = link[1], diff = link[2]
-    if (uf.find(x) === uf.find(y)) { continue }
-    uf.union(x, y)
-    out = Math.max(out, diff)
-    if (uf.find(0) === uf.find(m * n - 1)) { break }
-  }
-  return out
+    links.sort((a, b) => (a[2] < b[2]) ? -1 : (a[2] > b[2]) ? 1 : 0)
+    let uf = new unionFind(m * n)
+    let out = 0
+    for (let link of links) {
+        let x = link[0], y = link[1], diff = link[2]
+        if (uf.find(x) === uf.find(y)) { continue }
+        uf.union(x, y)
+        out = Math.max(out, diff)
+        if (uf.find(0) === uf.find(m * n - 1)) { break }
+    }
+    return out
 }
 
 class unionFind {
-  parent: number[] = []
-  size: number[] = []
+    parent: number[] = []
+    size: number[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.parent.push(i)
-      this.size.push(1)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.parent.push(i)
+            this.size.push(1)
+        }
     }
-  }
 
-  find(x: number): number {
-    if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
-    return this.parent[x]
-  }
+    find(x: number): number {
+        if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
+        return this.parent[x]
+    }
 
-  union(x: number, y: number) {
-    x = this.find(x)
-    y = this.find(y)
-    if (x === y) { return }
-    if (this.size[x] > this.size[y]) { [x, y] = [y, x] }
-    this.parent[x] = y
-    this.size[y] += this.size[x]
-  }
+    union(x: number, y: number) {
+        x = this.find(x)
+        y = this.find(y)
+        if (x === y) { return }
+        if (this.size[x] > this.size[y]) { [x, y] = [y, x] }
+        this.parent[x] = y
+        this.size[y] += this.size[x]
+    }
 }
 
 export { minimumEffortPath }

@@ -36,64 +36,64 @@
 // Union-Find + Binary Search
 
 function swimInWater(grid: number[][]): number {
-  let n = grid.length
-  let l = Math.max(grid[0][0], grid[n - 1][n - 1]), r = n * n - 1
-  while (l < r) {
-    let m = (l + r) >> 1
-    if (!valid(grid, m)) {
-      l = m + 1
-    } else {
-      r = m
+    let n = grid.length
+    let l = Math.max(grid[0][0], grid[n - 1][n - 1]), r = n * n - 1
+    while (l < r) {
+        let m = (l + r) >> 1
+        if (!valid(grid, m)) {
+            l = m + 1
+        } else {
+            r = m
+        }
     }
-  }
-  return l
+    return l
 };
 
 function valid(grid: number[][], limit: number): boolean {
-  let n = grid.length
-  let uf = new unionFind(n * n)
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (grid[i][j] > limit) { continue }
-      for (let move of moves) {
-        let x = i + move[0], y = j + move[1]
-        if (x < 0 || n - 1 < x || y < 0 || n - 1 < y || grid[x][y] > limit) { continue }
-        let a = i * n + j, b = x * n + y
-        a = uf.find(a), b = uf.find(b)
-        if (a === b) { continue }
-        uf.union(a, b)
-      }
+    let n = grid.length
+    let uf = new unionFind(n * n)
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (grid[i][j] > limit) { continue }
+            for (let move of moves) {
+                let x = i + move[0], y = j + move[1]
+                if (x < 0 || n - 1 < x || y < 0 || n - 1 < y || grid[x][y] > limit) { continue }
+                let a = i * n + j, b = x * n + y
+                a = uf.find(a), b = uf.find(b)
+                if (a === b) { continue }
+                uf.union(a, b)
+            }
+        }
     }
-  }
-  return uf.find(0) === uf.find(n * n - 1)
+    return uf.find(0) === uf.find(n * n - 1)
 }
 
 var moves = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
 class unionFind {
-  parent: number[] = []
-  size: number[] = []
+    parent: number[] = []
+    size: number[] = []
 
-  constructor(n: number) {
-    for (let i = 0; i < n; i++) {
-      this.parent.push(i)
-      this.size.push(1)
+    constructor(n: number) {
+        for (let i = 0; i < n; i++) {
+            this.parent.push(i)
+            this.size.push(1)
+        }
     }
-  }
 
-  find(x: number): number {
-    if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
-    return this.parent[x]
-  }
+    find(x: number): number {
+        if (this.parent[x] !== x) { this.parent[x] = this.find(this.parent[x]) }
+        return this.parent[x]
+    }
 
-  union(x: number, y: number) {
-    x = this.find(x)
-    y = this.find(y)
-    if (x === y) { return }
-    if (this.size[x] > this.size[y]) { [x, y] = [y, x] }
-    this.parent[x] = y
-    this.size[y] += this.size[x]
-  }
+    union(x: number, y: number) {
+        x = this.find(x)
+        y = this.find(y)
+        if (x === y) { return }
+        if (this.size[x] > this.size[y]) { [x, y] = [y, x] }
+        this.parent[x] = y
+        this.size[y] += this.size[x]
+    }
 }
 
 export { swimInWater }
